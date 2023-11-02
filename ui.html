@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <style>
+    :root {
+      --blue: #18a0fb;
+      --black: #000000;
+      --black8: rgba(0, 0, 0, 0.8);
+      --black3: rgba(0, 0, 0, 0.3);
+      --gray: #d2d2d2;
+      --white: #ffffff;
+      --silver: #e5e5e5;
+      --black1: rgba(0, 0, 0, 0.1);
+      --blue3: rgba(24, 145, 251, 0.3);
+      --font-stack: "Inter", sans-serif;
+      --font-size-xsmall: 11px;
+      --font-weight-medium: 500;
+      --font-line-height: 16px;
+      --font-letter-spacing-neg-small: 0.005em;
+      --border-radius-small: 2px;
+      --border-radius-large: 6px;
+      --size-xxxsmall: 4px;
+      --size-xxsmall: 8px;
+      --size-xsmall: 16px;
+      --size-small: 24px;
+      --size-medium: 32px;
+      --size-large: 40px;
+      --size-xlarge: 48px;
+      --size-xxlarge: 64px;
+      --size-xxxlarge: 80px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      margin: 1.5rem 0 7rem;
+      gap: 1.5rem;
+      font-family: "Inter", sans-serif;
+      padding: 0;
+    }
+
+    /*  FONTS */
+    @font-face {
+      font-family: "Inter";
+      font-weight: 400;
+      font-style: normal;
+      src: url("https://rsms.me/inter/font-files/Inter-Regular.woff2?v=3.7")
+          format("woff2"),
+        url("https://rsms.me/inter/font-files/Inter-Regular.woff?v=3.7")
+          format("woff");
+    }
+
+    @font-face {
+      font-family: "Inter";
+      font-weight: 500;
+      font-style: normal;
+      src: url("https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.7")
+          format("woff2"),
+        url("https://rsms.me/inter/font-files/Inter-Medium.woff2?v=3.7")
+          format("woff");
+    }
+
+    @font-face {
+      font-family: "Inter";
+      font-weight: 600;
+      font-style: normal;
+      src: url("https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.7")
+          format("woff2"),
+        url("https://rsms.me/inter/font-files/Inter-SemiBold.woff2?v=3.7")
+          format("woff");
+    }
+
+    .select-menu {
+      position: relative;
+    }
+
+    .select-menu__button {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--gray);
+      height: 32px;
+      margin: 1px 0 1px 0;
+      padding: 0px var(--size-small) 0px var(--size-xxsmall);
+      overflow-y: hidden;
+      border-radius: 4px;
+      background-color: var(--white);
+      width: 100%;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .select-menu__button:focus {
+      border: 1px solid var(--blue);
+      outline: 1px solid var(--blue);
+      outline-offset: -2px;
+    }
+
+    .select-menu__button * {
+      pointer-events: none;
+    }
+
+    .select-menu__button:hover .select-menu__label--placeholder {
+      color: var(--black8);
+    }
+
+    .select-menu__button:focus .select-menu__label--placeholder {
+      color: var(--black8);
+    }
+
+    .select-menu__button:hover .select-menu__caret,
+    .select-menu__button:focus .select-menu__caret {
+      opacity: 1;
+      margin-left: auto;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      width: 32px;
+      height: 32px;
+      display: block;
+      background-image: url("data:image/svg+xml;utf8,%3Csvg%20fill%3D%22none%22%20height%3D%2230%22%20viewBox%3D%220%200%2030%2030%22%20width%3D%2230%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20clip-rule%3D%22evenodd%22%20d%3D%22m15%2016.7071-3-3%20.7071-.7071%202.6465%202.6464%202.6464-2.6464.7071.7071-3%203-.3535.3536z%22%20fill%3D%22%23000%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: center center;
+      opacity: 0.7;
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      top: 1px;
+      right: 0;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: end;
+      gap: 1rem;
+      padding: 1rem;
+      padding-left: 1.5rem;
+      background-color: var(--white);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      border-top: 1px solid var(--silver);
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      border-radius: var(--border-radius-large);
+      color: var(--white);
+      flex-shrink: 0;
+      font-family: var(--font-stack);
+      font-size: var(--font-size-xsmall);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: var(--font-letter-spacing-neg-small);
+      line-height: var(--font-line-height);
+      height: var(--size-medium);
+      padding: 0 var(--size-xsmall) 0 var(--size-xsmall);
+      text-decoration: none;
+      outline: none;
+      border: 2px solid transparent;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .button--primary {
+      background-color: var(--blue);
+    }
+
+    .button--primary:enabled:active,
+    .button--primary:enabled:focus {
+      border: 2px solid var(--black3);
+    }
+
+    .button--primary:disabled {
+      background-color: var(--black3);
+    }
+
+    fieldset {
+      border: none;
+      margin: 0 0.5rem;
+      font-size: 14px;
+    }
+
+    .select {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 312px;
+    }
+
+    .input {
+      display: none;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 312px;
+    }
+
+    .input__field {
+      position: relative;
+      display: flex;
+      overflow: visible;
+      align-items: center;
+      width: 100%;
+      height: 32px;
+      margin: 1px 0 1px 0;
+      padding: var(--size-xxsmall) var(--size-xxxsmall) var(--size-xxsmall)
+        var(--size-xxsmall);
+      color: var(--black8);
+      border: 1px solid var(--black1);
+      border-radius: var(--border-radius-small);
+      outline: none;
+      background-color: var(--white);
+    }
+
+    .input__field:hover,
+    .input__field:placeholder-shown:hover {
+      color: var(--black8);
+      border: 1px solid var(--black1);
+      background-image: none;
+    }
+
+    .input__field::-moz-selection {
+      color: var(--black);
+      background-color: var(--blue3);
+    }
+
+    .input__field::selection {
+      color: var(--black);
+      background-color: var(--blue3);
+    }
+
+    .input__field::-moz-placeholder {
+      color: var(--black3);
+      border: 1px solid transparent;
+    }
+
+    .input__field:-ms-input-placeholder {
+      color: var(--black3);
+      border: 1px solid transparent;
+    }
+
+    .input__field::placeholder {
+      color: var(--black3);
+      border: 1px solid transparent;
+    }
+
+    .input__field:placeholder-shown {
+      border: 1px solid var(--black1);
+    }
+
+    .input__field:focus:placeholder-shown {
+      border: 1px solid var(--blue);
+      outline: 1px solid var(--blue);
+      outline-offset: -2px;
+    }
+
+    .input__field:disabled:hover {
+      border: 1px solid transparent;
+    }
+
+    .input__field:active,
+    .input__field:focus {
+      color: var(--black);
+      border: 1px solid var(--blue);
+      outline: 1px solid var(--blue);
+      outline-offset: -2px;
+    }
+
+    .message {
+      display: none;
+      font-size: 12px;
+    }
+  </style>
+  <body>
+    <fieldset class="select" id="collections-select">
+      <label for="collections">Collection</label>
+      <div class="select-wrapper">
+        <select
+          class="select-menu__button"
+          name="collections"
+          id="existing-collections"
+        ></select>
+      </div>
+    </fieldset>
+    <fieldset class="select" id="modes-select">
+      <label for="modes">Mode</label>
+      <div class="select-wrapper">
+        <select
+          class="select-menu__button"
+          name="modes"
+          id="existing-modes"
+        ></select>
+      </div>
+    </fieldset>
+    <fieldset class="input input__new-collection" id="new-collection-input">
+      <label for="new-collection-name">Collection</label>
+      <input
+        class="input__field"
+        value="New collection"
+        id="new-collection-name"
+      />
+    </fieldset>
+    <div class="footer">
+      <span class="message" id="message">
+        Please select at least one shape with fill to create variables.
+      </span>
+      <button class="button button--primary" id="create-button">Create</button>
+    </div>
+  </body>
+
+  <script>
+    const existingCollectionsDropdown = document.getElementById(
+      "existing-collections"
+    );
+    const existingModesDropdown = document.getElementById("existing-modes");
+    let newCollectionName;
+    let currentMode;
+
+    onmessage = ({ data: { pluginMessage } }) => {
+      const messageType = pluginMessage.type;
+
+      if (messageType === "render-collections") {
+        pluginMessage.collectionSets.forEach((collectionPair) => {
+          const option = document.createElement("option");
+          option.value = collectionPair.id;
+          option.text = collectionPair.name;
+          option.className = "select-menu__item";
+          existingCollectionsDropdown.appendChild(option);
+
+          if (collectionPair.id === existingCollectionsDropdown.value) {
+            collectionPair.modes.forEach((mode) => {
+              const option = document.createElement("option");
+              option.value = mode.modeId;
+              option.text = mode.name;
+              option.className = "select-menu__item";
+              existingModesDropdown.appendChild(option);
+            });
+          }
+        });
+
+        existingCollectionsDropdown.addEventListener("change", function () {
+          while (existingModesDropdown.options.length > 0) {
+            existingModesDropdown.remove(0);
+          }
+
+          pluginMessage.collectionSets.forEach((collectionPair) => {
+            if (collectionPair.id === existingCollectionsDropdown.value) {
+              collectionPair.modes.forEach((mode) => {
+                const option = document.createElement("option");
+                option.value = mode.modeId;
+                option.text = mode.name;
+                option.className = "select-menu__item";
+                existingModesDropdown.appendChild(option);
+              });
+            }
+          });
+        });
+      }
+
+      if (messageType === "render-collection-input") {
+        const collectionsSelect = document.getElementById("collections-select");
+        const modesSelect = document.getElementById("modes-select");
+        collectionsSelect.style.display = "none";
+        modesSelect.style.display = "none";
+
+        const newCollectionInput = document.getElementById(
+          "new-collection-input"
+        );
+        newCollectionInput.style.display = "flex";
+        newCollectionName = document.getElementById("new-collection-name");
+      }
+
+      if (messageType === "show-tip") {
+        const button = document.getElementById("create-button");
+        const message = document.getElementById("message");
+        if (pluginMessage.selectionLength === 0) {
+          button.disabled = true;
+          message.style.display = "flex";
+        } else {
+          button.disabled = false;
+          message.style.display = "none";
+        }
+      }
+    };
+
+    document.getElementById("create-button").onclick = () => {
+      if (newCollectionName) {
+        collectionId = newCollectionName.value;
+      } else {
+        collectionId = existingCollectionsDropdown.value;
+      }
+
+      currentMode = existingModesDropdown.value;
+
+      parent.postMessage(
+        {
+          pluginMessage: {
+            type: "create-variables",
+            collectionId,
+            currentMode,
+          },
+        },
+        "*"
+      );
+    };
+
+    document.getElementById("cancel").onclick = () => {
+      parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+    };
+  </script>
+</html>
